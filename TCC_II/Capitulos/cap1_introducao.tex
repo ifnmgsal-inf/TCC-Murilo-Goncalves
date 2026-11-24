@@ -1,0 +1,36 @@
+\chapter{Introdução}
+\label{Introducao}
+A organização dos espaços físicos no campus de uma instituição de ensino pode aparentar simplicidade, mas revela-se complexa na prática. Quando laboratórios e salas especiais são compartilhados por vários docentes sem um sistema de agendamento adequado, surgem conflitos de horário e a tarefa de controlar quem usa o quê e quando recai sobre servidores que já têm outras atribuições.
+
+No Instituto Federal do Norte de Minas Gerais (IFNMG) -- Campus Salinas, esse problema tem contorno específico. O sistema utilizado para agendamentos exige o cadastro manual dos horários ocupados antes de qualquer reserva. Como as atividades dos espaços mudam a cada semestre, o procedimento precisa ser repetido periodicamente. Os docentes também não consultam a disponibilidade nem solicitam reservas sem a intermediação de um servidor. Além disso, a instituição não dispõe de um registro consolidado da utilização dos laboratórios. Esse cenário não é exclusivo do Campus Salinas: o estudo de \citeonline{cruz2023gestao} no IFNMG -- Campus Almenara identificou a ausência de planejamento permanente e de mecanismos para medir a utilização dos laboratórios.
+
+Este trabalho apresenta o desenvolvimento do \textit{IFAgenda}, um sistema web para o gerenciamento de reservas de espaços físicos no IFNMG -- Campus Salinas. O IFAgenda permite que docentes consultem a disponibilidade e solicitem reservas sem intermediação. Também oferece ao servidor responsável ferramentas para aprovar solicitações, acompanhar notificações e gerar relatórios sobre o uso dos espaços.
+
+A demanda que deu origem ao sistema foi apresentada pela Diretora de Ensino Técnico em julho de 2025, e o desenvolvimento começou em março de 2026. Os trabalhos relacionados \cite{cruz2023gestao,nascimento2020reservas} e a verificação, em junho de 2026, de plataformas comerciais como o Skedda \cite{skedda2025} e o Microsoft Bookings \cite{microsoft2025bookings} confirmaram que nenhuma solução atende ao requisito central apontado por ela: fazer com que a disponibilidade dos espaços reflita automaticamente a grade de horários institucional. Em setembro de 2026, o Merly, sistema já usado pelo campus, também foi avaliado como alternativa (Seção~\ref{sec:relmerly}).
+
+A necessidade de uma solução específica foi expressa pela Diretora de Ensino Técnico do IFNMG -- Campus Salinas, responsável pela gestão dos agendamentos. Em conversa, ela destacou\footnote{Informação verbal fornecida pela Diretora de Ensino Técnico do IFNMG -- Campus Salinas, em conversas remotas realizadas entre julho de 2025 e abril de 2026.}:
+
+\needspace{5\baselineskip}
+\begin{citacao}
+Precisamos de um software que forneça um mapa de utilização dos espaços do campus e permita que horários livres dos espaços sejam agendados pelos docentes, aprovados pelos administradores e visualizados por todos.
+\end{citacao}
+
+Com esses recursos, o IFAgenda substitui parte do cadastro manual dos horários, registra o histórico das reservas e apoia a administração na identificação de conflitos e na consulta da ocupação dos espaços.
+%---------------------------------
+% SEÇÕES: OBJETIVOS E ESTRUTURA
+%---------------------------------
+\section{Objetivo Geral}
+\label{sec:objetivoGeral}
+Desenvolver um sistema web para o gerenciamento de reservas de espaços físicos no IFNMG -- Campus Salinas.
+\section{Objetivos Específicos}
+\label{sec:objetivosEspecificos}
+\begin{itemize}
+    \item Levantar o processo atual de agendamento e identificar as necessidades dos perfis de usuários envolvidos;
+    \item Especificar os requisitos funcionais e não funcionais do sistema;
+    \item Implementar o sistema web com as tecnologias e a arquitetura definidas a partir dos requisitos especificados;
+    \item Disponibilizar ao administrador ferramentas para a gestão dos agendamentos e o acompanhamento do uso dos espaços;
+    \item Verificar o funcionamento do sistema por meio de testes automatizados.
+\end{itemize}
+\section{Estrutura do Trabalho}
+\label{sec:estruturaTrabalho}
+Este trabalho está estruturado da seguinte forma: o Capítulo~\ref{sec:revbib} apresenta a revisão bibliográfica, que abrange o contexto institucional, os trabalhos relacionados e a fundamentação tecnológica; o Capítulo~\ref{sec:metodologia} descreve a metodologia utilizada na condução da pesquisa; o Capítulo~\ref{cap4_resultados} apresenta os resultados do desenvolvimento e da validação do sistema; o Capítulo~\ref{cap5_conclusao} apresenta as conclusões, as limitações e as possibilidades de trabalhos futuros; em seguida, são reunidas as referências bibliográficas consultadas; por fim, o Apêndice~\ref{ap:rastreabilidade} apresenta a rastreabilidade entre os requisitos e os testes automatizados.

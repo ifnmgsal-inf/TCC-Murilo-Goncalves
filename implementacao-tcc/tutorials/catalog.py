@@ -2,6 +2,8 @@
 
 from dataclasses import dataclass
 
+from django.urls import reverse
+
 from accounts import permissions
 from ui.navigation import MENU, MenuGroup
 
@@ -47,11 +49,16 @@ class Module:
 
 @dataclass(frozen=True)
 class Screen:
-    """Parte do sistema de onde a ajuda é aberta, ligada à opção do menu pelo mesmo prefixo de rota."""
+    """Parte do sistema de onde a ajuda é aberta, ligada à opção do menu pelo mesmo prefixo de rota.
+
+    Tela fora do menu, como as informações pessoais, informa o próprio rótulo e a rota da trilha.
+    """
 
     prefix: str
     title: str
     features: tuple
+    label: str = ''
+    url_name: str = ''
 
 
 NOTIFICATIONS = Feature(
@@ -74,6 +81,52 @@ NOTIFICATIONS = Feature(
             text='Use Marcar todas como lidas para zerar o contador do sino.',
             alt='Painel do sino com o botão Marcar todas como lidas destacado.',
             marks=('Marque como lidas',),
+        ),
+    ),
+)
+
+PERSONAL_INFO = Feature(
+    slug='informacoes-pessoais',
+    title='Alterar a senha e o nome',
+    goal='Trocar a sua senha e corrigir o seu nome sem depender de quem administra os usuários.',
+    permissions=(),
+    screen='profile',
+    screen_label='Abrir as informações pessoais',
+    note=(
+        'O e-mail, o nome de usuário e o perfil não podem ser alterados nesta tela, porque são usados no login e '
+        'no ensalamento. Para alterá-los, procure quem administra os usuários.'
+    ),
+    steps=(
+        Step(
+            text=(
+                'Escolha as iniciais do seu nome, no canto superior direito, e depois Informações pessoais. '
+                'No celular, toque em Menu, no topo da tela, e depois nas iniciais do seu nome.'
+            ),
+            alt='Menu do usuário aberto, com a opção Informações pessoais destacada.',
+            marks=('Informações pessoais',),
+        ),
+        Step(
+            text='A tela mostra os seus dados. Para trocar a senha, escolha Alterar senha.',
+            alt='Tela Informações pessoais com o botão Alterar senha destacado.',
+            marks=('Alterar senha',),
+        ),
+        Step(
+            text=(
+                'Informe a senha atual, a nova senha e a confirmação, e escolha Salvar senha. As outras sessões abertas '
+                'com a sua conta são encerradas, e esta continua aberta.'
+            ),
+            alt='Formulário Alterar senha com a senha atual, a nova senha e o botão Salvar senha destacados.',
+            marks=('Senha atual', 'Nova senha e confirmação', 'Salve'),
+        ),
+        Step(
+            text='Para corrigir o seu nome, escolha Editar nome.',
+            alt='Tela Informações pessoais com o botão Editar nome destacado.',
+            marks=('Editar nome',),
+        ),
+        Step(
+            text='Informe o nome e escolha Salvar nome. O novo nome aparece no menu e nas telas do sistema.',
+            alt='Formulário Editar nome com o campo Nome e o botão Salvar nome destacados.',
+            marks=('Nome', 'Salve'),
         ),
     ),
 )
@@ -126,7 +179,10 @@ AGENDA_VIEW = Feature(
     screen_label='Abrir a agenda',
     steps=(
         Step(
-            text='Escolha a sala e a visualização por semana ou por mês. O semestre já vem escolhido.',
+            text=(
+                'Escolha a sala e a visualização por semana ou por mês. O semestre já vem escolhido. '
+                'No celular, os filtros ficam um abaixo do outro, na largura da tela.'
+            ),
             alt='Agenda com os filtros de sala e de visualização destacados.',
             marks=('Escolha a sala', 'Semana ou mês'),
         ),
@@ -177,8 +233,8 @@ AGENDA_REQUEST = Feature(
         ),
         Step(
             text=(
-                'Informe a descrição do uso e a quantidade de alunos. Curso, disciplina e turma são opcionais. '
-                'Depois, escolha Revisar solicitação.'
+                'Informe a descrição do uso e a quantidade de alunos. Curso, disciplina e turma são opcionais '
+                'e trazem só as turmas do próprio docente no semestre. Depois, escolha Revisar solicitação.'
             ),
             alt='Formulário Solicitar agendamento com a descrição e o botão Revisar solicitação destacados.',
             marks=('Descreva o uso', 'Revise antes de enviar'),
@@ -338,7 +394,10 @@ AGENDA_ON_BEHALF = Feature(
             marks=('Criar para outro usuário',),
         ),
         Step(
-            text='Escolha o usuário e preencha a descrição e a quantidade de alunos. Depois, escolha Revisar solicitação.',
+            text=(
+                'Escolha o usuário e preencha a descrição e a quantidade de alunos. Aqui curso, disciplina e turma '
+                'trazem todas as turmas do semestre. Depois, escolha Revisar solicitação.'
+            ),
             alt='Formulário Criar solicitação para outro usuário com o campo Usuário e o botão Revisar solicitação destacados.',
             marks=('Escolha o usuário', 'Revise antes de enviar'),
         ),
@@ -364,7 +423,10 @@ TIMETABLE_VIEW = Feature(
             marks=('Abra o ensalamento',),
         ),
         Step(
-            text='Escolha o semestre, a sala e a visualização. A Grade mostra as aulas da sala em cada faixa de horário.',
+            text=(
+                'Escolha o semestre, a sala e a visualização. A Grade mostra as aulas da sala em cada faixa de horário. '
+                'No celular, os filtros ficam um abaixo do outro, na largura da tela, e as aulas aparecem numa lista por dia.'
+            ),
             alt='Grade do ensalamento com o filtro de sala destacado.',
             marks=('Escolha a sala',),
         ),
@@ -438,7 +500,10 @@ TIMETABLE_IMPORT = Feature(
     screen_label='Abrir as importações',
     steps=(
         Step(
-            text='Em Ensalamento, escolha Ver importações e depois Importar ensalamento.',
+            text=(
+                'Em Ensalamento, escolha Ver importações e depois Importar ensalamento. Para montar a planilha do zero, '
+                'escolha Baixar modelo: ele vem com os cursos, as turmas, as faixas e uma aba de instruções.'
+            ),
             alt='Lista de importações com o botão Importar ensalamento destacado.',
             marks=('Importar ensalamento',),
         ),
@@ -824,7 +889,7 @@ EMAIL_SERVER = Feature(
 )
 
 MODULES = (
-    Module('geral', 'Uso geral', (NOTIFICATIONS,)),
+    Module('geral', 'Uso geral', (NOTIFICATIONS, PERSONAL_INFO)),
     Module('painel', 'Painel', (PANEL,)),
     Module('agenda', 'Agenda', (
         AGENDA_VIEW, AGENDA_REQUEST, AGENDA_FOLLOW, AGENDA_CANCEL, AGENDA_OCCURRENCE, AGENDA_REVIEW, AGENDA_ON_BEHALF,
@@ -840,6 +905,7 @@ MODULES = (
 
 
 SCREENS = (
+    Screen('profile', 'Ajuda das informações pessoais', (PERSONAL_INFO,), 'Informações pessoais', 'profile'),
     Screen('panel', 'Ajuda do painel', (PANEL,)),
     Screen('agenda_', 'Ajuda da agenda', (
         AGENDA_VIEW, AGENDA_REQUEST, AGENDA_FOLLOW, AGENDA_CANCEL, AGENDA_OCCURRENCE, AGENDA_REVIEW, AGENDA_ON_BEHALF,
@@ -875,6 +941,14 @@ def screen_for(url_name):
 
 def menu_item_of(screen):
     return next(item for item in menu_items() if item.prefix == screen.prefix)
+
+
+def trail_of(screen, user):
+    """Rótulo e endereço da tela na trilha: os da opção do menu ou, fora do menu, os da própria tela."""
+    if screen.url_name:
+        return screen.label, reverse(screen.url_name)
+    item = menu_item_of(screen)
+    return item.label, item.url_for(user)
 
 
 def entries_for(user, chosen):

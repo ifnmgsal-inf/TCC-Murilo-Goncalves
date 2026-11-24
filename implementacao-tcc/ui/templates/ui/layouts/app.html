@@ -14,7 +14,7 @@
       {% include "ui/components/navigation.html" %}
       {% if user.is_authenticated %}
         <div class="sidebar-footer">
-          <span class="avatar" aria-hidden="true">{{ user.name|initials }}</span>
+          <a class="avatar" href="{% url 'profile' %}" aria-label="Informações pessoais">{{ user.name|initials }}</a>
           <span class="who"><span class="who-name" title="{{ user.name }}">{{ user.name|first_name }}</span><span class="who-role">{{ user_role.name|default:"Sem perfil" }}</span></span>
           <a class="icon-btn" href="{% url 'account_logout' %}" hx-get="{% url 'account_logout' %}" hx-target="#modal" aria-label="Sair">{% icon "log-out" %}<span class="tip" role="tooltip">Sair</span></a>
         </div>
@@ -35,7 +35,7 @@
           {% include "ui/components/navigation.html" %}
           {% if user.is_authenticated %}
             <div class="topbar-user">
-              <span class="avatar" aria-hidden="true">{{ user.name|initials }}</span>
+              <a class="avatar" href="{% url 'profile' %}" aria-label="Informações pessoais">{{ user.name|initials }}</a>
               <span class="who"><span class="who-name">{{ user.name }}</span><span class="who-role">{{ user_role.name|default:"Sem perfil" }}</span></span>
               <a class="icon-btn" href="{% url 'account_logout' %}" hx-get="{% url 'account_logout' %}" hx-target="#modal" aria-label="Sair">{% icon "log-out" %}</a>
             </div>
@@ -49,7 +49,7 @@
       {% if user.is_authenticated %}{% url 'help_center' as help_url %}<a class="icon-btn help-link" href="{{ help_url }}?tela={{ request.resolver_match.url_name|urlencode }}" aria-label="Abrir a central de ajuda"{% if request.path == help_url %} aria-current="page"{% endif %}>{% icon "circle-help" %}<span class="tip is-below" role="tooltip">Abrir a central de ajuda</span></a>{% notifications %}{% endif %}
     </div>
 
-    <div>
+    <div class="app-main">
       <header class="header">
         <button class="icon-btn" type="button" data-sidebar-toggle aria-controls="menu-lateral" aria-expanded="true" aria-label="Recolher menu lateral" hidden>
           <span class="when-expanded">{% icon "panel-left-close" %}</span>
@@ -68,6 +68,7 @@
             <summary aria-label="Menu do usuário"><span class="avatar" aria-hidden="true">{{ user.name|initials }}</span></summary>
             <div class="menu-list">
               <span class="who menu-head"><span class="who-name">{{ user.name }}</span><span class="who-role">{{ user_role.name|default:"Sem perfil" }}</span></span>
+              <a href="{% url 'profile' %}">{% icon "user-round" %}Informações pessoais</a>
               <a href="{% url 'account_logout' %}" hx-get="{% url 'account_logout' %}" hx-target="#modal">{% icon "log-out" %}Sair</a>
             </div>
           </details>

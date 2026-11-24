@@ -1,0 +1,100 @@
+\chapter{Metodologia}
+\label{sec:metodologia}
+
+Este capítulo descreve como a pesquisa foi feita. A Seção~\ref{sec:tipopesquisa} classifica a pesquisa, e a Seção~\ref{sec:procedimentos} explica como cada etapa foi conduzida. Os resultados de cada etapa estão no Capítulo~\ref{cap4_resultados}.
+
+%-----------------------------------
+\section{Tipo de Pesquisa}
+\label{sec:tipopesquisa}
+
+Quanto à natureza, esta é uma pesquisa aplicada, pois busca resolver, por meio de um sistema de software, um problema concreto de uma instituição real. Segundo \citeonline{gil2008}, é isso que diferencia a pesquisa aplicada da pesquisa básica: ela parte de um problema prático, e seus resultados têm aplicação imediata.
+
+Quanto ao procedimento técnico, a pesquisa adota o estudo de caso em combinação com a pesquisa bibliográfica. O estudo de caso é adequado porque a investigação recai sobre um ambiente específico, o Campus Salinas, com histórico, atores e restrições próprios que precisam ser compreendidos antes de qualquer proposta de solução. \citeonline{yin2015} define o estudo de caso como uma investigação empírica que examina um fenômeno contemporâneo em profundidade e em seu contexto real, sendo especialmente indicado quando os limites entre o fenômeno e o contexto não são claramente separáveis. A pesquisa bibliográfica, por sua vez, dá sustentação às decisões de projeto, de modelagem e de escolha tecnológica, com base no que a literatura já consolidou sobre engenharia de software, controle de acesso e desenvolvimento web.
+
+%-----------------------------------
+\section{Procedimentos Metodológicos}
+\label{sec:procedimentos}
+
+O trabalho foi dividido em cinco etapas: diagnóstico do problema, levantamento e análise de requisitos, modelagem do sistema, implementação e validação. Na prática, essas etapas se sobrepuseram, porque os requisitos e a modelagem eram ajustados a cada conversa com a Diretora de Ensino Técnico e a cada reunião com a Direção de Ensino e incorporados ao sistema durante o desenvolvimento. As subseções a seguir explicam como cada etapa foi realizada, e o Capítulo~\ref{cap4_resultados} apresenta os resultados na mesma ordem.
+
+%-----------------------------------
+\subsection{Diagnóstico do Problema}
+\label{sec:coleta}
+
+O diagnóstico buscou entender como funcionava o agendamento dos espaços físicos do campus: como as reservas eram pedidas e controladas, onde surgiam os conflitos e o que os usuários precisavam consultar.
+
+Os dados são primários e vieram de dois servidores do campus. Jéssica Glória, Diretora de Ensino Técnico e coorientadora deste trabalho, é responsável pela gestão dos agendamentos, trouxe a demanda que originou o sistema e participou do levantamento e da revisão dos requisitos. Frederico Ventura Batista, Coordenador de Ensino Superior, representou a Direção de Ensino nas reuniões do desenvolvimento e na validação. Docentes e outros usuários não foram consultados formalmente, o que é uma limitação deste trabalho. A Tabela~\ref{tab:encontros} lista os encontros.
+
+\begin{table}[!htb]
+	\centering
+	\caption{Encontros realizados durante a pesquisa}
+	\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{5.2cm}>{\raggedright\arraybackslash}p{5.6cm}@{}}
+	\hline
+		\textbf{Data} & \textbf{Participantes} & \textbf{Assunto} \\ \hline
+		jul. 2025 & Diretora de Ensino Técnico & Mapeamento do processo de agendamento em uso \\
+		nov. 2025 & Diretora de Ensino Técnico & Revisão dos requisitos preliminares \\
+		abr. 2026 & Diretora de Ensino Técnico & Fechamento dos requisitos e dúvidas da modelagem \\
+		24 set. 2026 & Frederico Ventura Batista (Direção de Ensino) & Planilha de horários e fluxos de agendamento em uso \\
+		28 set. 2026 & Luis Gustavo Barbosa Santiago e Micael Pereira (SifSoft Júnior) & Avaliação do Merly \\
+		7 out. 2026 & Frederico Ventura Batista (Direção de Ensino) & Validação institucional \\ \hline
+	\end{tabular}
+	\caption*{\footnotesize Fonte: Elaborado pelo autor (2026).}
+	\label{tab:encontros}
+\end{table}
+
+As três primeiras foram conversas remotas, pelo Google Meet, sem um roteiro fixo de perguntas. Esse formato se aproxima do que \citeonline{gil2008} chama de entrevista informal, a menos estruturada das modalidades de entrevista, semelhante a uma conversa e indicada quando o pesquisador ainda conhece pouco da realidade estudada. Cada conversa retomava o que tinha sido levantado na anterior, e as dúvidas que apareciam entre um encontro e outro eram levadas para o seguinte.
+
+As conversas aconteceram em julho de 2025, novembro de 2025 e abril de 2026. Na primeira, foi mapeado o processo de agendamento em uso: como as reservas eram solicitadas, quem fazia o controle, quais conflitos eram mais comuns e que informações os usuários consultavam. Na segunda, o pesquisador apresentou os requisitos preliminares para que a Diretora confirmasse, corrigisse ou completasse o que havia sido entendido. A terceira fechou os requisitos e resolveu dúvidas que surgiram na modelagem. Entre as conversas, questões pontuais foram resolvidas por mensagens.
+
+Durante o desenvolvimento, houve mais duas reuniões. Na primeira, a Direção de Ensino apresentou a planilha de horários do campus e os fluxos de agendamento em uso. Na segunda, Luis Gustavo Barbosa Santiago apresentou o Merly, sistema do próprio IF, para avaliar se ele poderia substituir o sistema em desenvolvimento. Participou também Micael Pereira, presidente da SifSoft Júnior, que ficará responsável pela infraestrutura e pela manutenção. A validação está descrita na Seção~\ref{sec:validacao}, e o resultado do diagnóstico, na Seção~\ref{sec:resultado-diagnostico}.
+
+%-----------------------------------
+\subsection{Levantamento e Análise de Requisitos}
+\label{sec:requisitos}
+
+\citeonline{pressman2016} tratam a engenharia de requisitos como um processo contínuo de identificação, análise, especificação e validação das necessidades dos envolvidos, e observam que a qualidade dessa etapa influencia diretamente o que é desenvolvido depois. Neste trabalho, os requisitos partiram das necessidades levantadas no diagnóstico e do referencial bibliográfico.
+
+Cada necessidade deu origem a um ou mais requisitos, classificados conforme \citeonline{sommerville2018} em funcionais, que dizem o que o sistema deve fazer, e não funcionais, que impõem restrições de qualidade. Os requisitos não funcionais foram definidos com base nos atributos de qualidade descritos pelo autor (Seção~\ref{sec:engsw}). \citeonline{pressman2016} lembram que esse tipo de requisito afeta a arquitetura e, por isso, deve ser considerado desde o começo do projeto.
+
+Os requisitos foram numerados com a sigla RF, de requisito funcional (RF01, RF02 e assim por diante), e RNF, de requisito não funcional (RNF01, RNF02 e assim por diante), e agrupados pelos módulos do sistema, o que facilita relacionar cada um às funcionalidades e aos testes. A lista foi revisada com a Diretora de Ensino Técnico nas conversas de novembro de 2025 e abril de 2026, e os requisitos que surgiram depois, durante o desenvolvimento, passaram pela mesma revisão. Como o acesso é controlado por perfis configuráveis (Seção~\ref{sec:rbac}), os requisitos descrevem funcionalidades sem associá-las a um perfil específico. A Seção~\ref{sec:resultado-requisitos} traz os requisitos e a situação de cada um na versão desenvolvida.
+
+%-----------------------------------
+\subsection{Modelagem do Sistema}
+\label{sec:modelagem}
+
+Para a modelagem foi usada a UML. Segundo \citeonline{bezerra2007}, ela é uma notação, que pode ser usada com diferentes processos de desenvolvimento, e não uma metodologia. Foram feitos três diagramas. O de casos de uso mostra os atores e as funcionalidades previstas nos requisitos funcionais. O de classes mostra as entidades do domínio e como elas se relacionam. O de sequência detalha a solicitação e a aprovação de uma reserva, fluxo escolhido por concentrar as verificações de conflito de horário \cite{bezerra2007,larman2007}.
+
+Os diagramas foram esboçados a partir dos requisitos antes da implementação, para servir de guia ao código. Como o desenvolvimento foi incremental, o modelo foi mudando ao longo do trabalho. No final, os diagramas foram revisados para corresponder à versão implementada.
+
+Para o banco de dados, foram seguidos os três níveis de projeto de \citeonline{heuser2009}. Antes da implementação, as tabelas principais (espaços, ensalamento, solicitações, agendamentos, usuários, perfis e permissões) foram modeladas. O modelo conceitual, na notação entidade-relacionamento, partiu dos requisitos e do diagrama de classes. O lógico transformou entidades e relacionamentos em tabelas com chaves primárias e estrangeiras. O físico definiu, no PostgreSQL, os tipos de dados, os índices e as restrições de integridade. Com a evolução do código, essas tabelas foram alteradas, surgiram outras para a importação, as notificações e a auditoria, e os diagramas acompanharam as mudanças. A versão final está na Seção~\ref{sec:resultado-banco}.
+
+%-----------------------------------
+\subsection{Implementação}
+\label{sec:implementacao}
+
+A implementação seguiu o desenvolvimento incremental descrito por \citeonline{sommerville2018}, em que o sistema é construído em versões sucessivas e cada versão acrescenta funcionalidades à anterior. Essa abordagem facilita absorver mudanças de requisitos durante o trabalho. O IFAgenda foi desenvolvido entre março e outubro de 2026, um módulo de cada vez, e cada parte foi entregue com os seus testes automatizados (Seção~\ref{sec:validacao}). O código foi versionado com o Git e está disponível no repositório do trabalho no GitHub \cite{goncalves2026ifagenda}, no endereço \url{https://github.com/ifnmgsal-inf/TCC-Murilo-Goncalves}.
+
+As tecnologias foram escolhidas com base no Capítulo~\ref{sec:revbib}. O Django foi adotado por seguir o padrão MTV, que separa dados, lógica e apresentação (Seções~\ref{sec:mvc_mtv} e~\ref{sec:django}), e por já trazer ORM, autenticação, roteamento e \textit{templates}. O PostgreSQL foi escolhido por atender às propriedades ACID e permitir restrições de integridade que impedem reservas sobrepostas mesmo com acessos simultâneos \cite{silberschatz2012,postgresql2024}. As demais tecnologias foram escolhidas pelos motivos apresentados na Seção~\ref{sec:tecnologias}. A interface usa os \textit{templates} do Django com o Tailwind CSS, \textit{framework} de estilos baseado em \textit{Cascading Style Sheets} (CSS), o que ajuda a manter as telas visualmente consistentes \cite{tailwinddocs}. Para a autenticação, foi usada a biblioteca \textit{django-allauth}, que já oferece login, recuperação de senha e gerenciamento de sessões \cite{pennersr2024}. As notificações em tempo real usam o Django Channels, que mantém conexões WebSocket com o navegador \cite{channelsdocs,rfc6455}. O Redis guarda o \textit{cache} das telas públicas e serve de canal para as notificações em tempo real \cite{redisdocs}. A aplicação, o banco de dados, o Redis e os processos em segundo plano rodam em contêineres orquestrados pelo Docker Compose \cite{dockerdocs}.
+
+As regras de negócio ficaram nas classes de modelo, como prevê o padrão MTV. A regra que impede conflitos de horário também foi declarada no esquema do banco, para continuar valendo quando duas operações acontecem ao mesmo tempo. O controle de acesso segue o modelo RBAC (Seção~\ref{sec:rbac}), e as permissões são sempre verificadas no servidor.
+
+Este trabalho se limita a uma versão funcional do sistema, executada em ambiente local e acessada pelo navegador. A implantação na infraestrutura do campus não faz parte do escopo e depende da Direção de Ensino e da SifSoft Júnior, que ficará responsável pela hospedagem e pela manutenção. O sistema desenvolvido é apresentado na Seção~\ref{sec:resultado-sistema}.
+
+%-----------------------------------
+\subsection{Validação}
+\label{sec:validacao}
+
+A validação teve duas partes. A institucional verificou se o sistema atende ao processo do campus, e a técnica verificou se ele funciona de acordo com os requisitos. Nas duas, o sistema foi executado em ambiente local, sem implantação e sem uso em produção.
+
+A validação institucional aconteceu em uma reunião remota com Frederico Ventura Batista, representando a Direção de Ensino, em 7 de outubro de 2026. Nela, o sistema foi apresentado funcionando localmente, e foram demonstrados todos os seus fluxos: a importação da planilha de horários, a consulta pública da ocupação, a solicitação e a análise de reservas, as notificações, os perfis e as permissões, o painel, os relatórios e a auditoria. Como os requisitos já tinham sido discutidos nos encontros anteriores, essa reunião serviu para avaliar o sistema completo diante do processo levantado no diagnóstico. O retorno da Direção foi dado oralmente ao final da demonstração, sem ata, e é registrado neste trabalho como informação verbal.
+
+O critério foi a Direção de Ensino reconhecer, nos fluxos demonstrados, o processo de agendamento levantado no diagnóstico. Os ajustes pedidos na reunião foram incorporados ao sistema e fazem parte do resultado.
+
+A validação técnica foi feita com testes automatizados unitários e de integração, seguindo os conceitos da Seção~\ref{sec:testes}. Os testes foram escritos junto com o código, e cada funcionalidade foi entregue com testes das suas regras, tanto para as operações que devem funcionar quanto para as que o sistema deve recusar. Antes de registrar qualquer alteração no repositório, toda a suíte de testes era executada, para conferir que nada do que já funcionava tinha sido afetado.
+
+Os testes usam o \textit{framework} de testes do Django, que cria um banco PostgreSQL temporário a cada execução, separado da base de desenvolvimento. Assim, cada teste prepara os próprios dados sem interferir na aplicação \cite{djangodocs}. O critério da validação técnica teve três partes. A primeira foi a execução de todos os testes sem falhas. Como isso mostra que os testes passam, mas não quanto do sistema eles exercitam, a segunda parte foi medir a cobertura de código com a ferramenta Coverage.py \cite{coveragepy}, que registra quais comandos e quais desvios do código da aplicação foram executados durante os testes. Essas duas medidas correspondem aos critérios de cobertura de comandos e de cobertura de decisões descritos por \citeonline{myers2011}: o primeiro exige que cada comando seja executado ao menos uma vez, e o segundo, que cada decisão seja exercitada tanto no caminho verdadeiro quanto no falso. Os arquivos de migração do banco e os próprios testes ficaram fora da medição. A terceira parte foi relacionar cada requisito funcional e não funcional às verificações feitas pelos testes, para identificar os requisitos que não têm teste automatizado. Não foram feitos testes formais de usabilidade com os usuários finais. Os resultados das duas partes da validação estão na Seção~\ref{sec:resultado-validacao}.
+
+%---------------------------------
+% SEÇÃO DE CRONOGRAMA
+%---------------------------------
+\needspace{9\baselineskip}

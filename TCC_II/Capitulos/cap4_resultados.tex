@@ -1,0 +1,555 @@
+\chapter{Resultados}
+\label{cap4_resultados}
+
+Este capítulo apresenta os resultados de cada uma das cinco etapas descritas no Capítulo~\ref{sec:metodologia}, na mesma ordem. A Seção~\ref{sec:resultado-necessidades} fecha o capítulo relacionando o sistema às necessidades encontradas no diagnóstico.
+
+%-----------------------------------
+\section{Diagnóstico do Problema}
+\label{sec:resultado-diagnostico}
+
+O diagnóstico mostrou que o sistema em uso exige o cadastro manual de todos os horários ocupados antes de qualquer reserva, e esse cadastro é refeito a cada semestre. Os docentes não consultam a disponibilidade nem solicitam reservas sem passar por um servidor, o que concentra todo o controle em um único ponto. Também não há registro consolidado do uso dos espaços que apoie o planejamento da administração.
+
+Dessas limitações derivam as necessidades que orientaram os requisitos: importar a planilha de horários já produzida pelo campus, marcando automaticamente como ocupados os horários das aulas; manter essa ocupação atualizada por reimportação ou ajuste pontual, sem integração em tempo real com sistemas externos; notificar automaticamente os envolvidos no fluxo de reserva; permitir a consulta pública da ocupação; e gerar um mapa da utilização dos espaços ao longo do semestre.
+
+Na reunião de 28 de setembro de 2026, o Merly foi avaliado como alternativa (Seção~\ref{sec:relmerly}), e o desenvolvimento do IFAgenda foi mantido.
+
+%-----------------------------------
+\section{Requisitos}
+\label{sec:resultado-requisitos}
+
+O levantamento resultou em 29 requisitos funcionais e 13 não funcionais. Os funcionais estão na Tabela~\ref{tab:rf} e foram agrupados por módulo: ensalamento (RF01, RF02, RF13--RF16); espaços, cursos, disciplinas e turmas (RF03, RF17); usuários e perfis (RF04, RF18--RF20); agenda de reservas (RF05--RF08, RF21--RF23); notificações e comunicados (RF09, RF10, RF24); consulta pública (RF11, RF28); painel, relatórios e auditoria (RF12, RF25, RF26); configurações (RF27); e central de ajuda (RF29). A coluna Situação mostra se cada requisito foi atendido na versão desenvolvida.
+
+\begin{SingleSpace}
+\begin{longtable}{@{}p{1.5cm}p{11.5cm}p{1.8cm}@{}}
+	\caption{Requisitos funcionais do sistema}\label{tab:rf} \\
+	\hline
+	\textbf{Código} & \textbf{Descrição} & \textbf{Situação} \\ \hline
+	\endfirsthead
+	\multicolumn{3}{@{}l}{\small\textit{Continuação da Tabela~\thetable}} \\ \hline
+	\textbf{Código} & \textbf{Descrição} & \textbf{Situação} \\ \hline
+	\endhead
+	\hline
+	\endfoot
+	RF01 & Importar a planilha de horários institucional do semestre, identificando automaticamente os espaços e os horários ocupados pelas aulas, com prévia do resultado e confirmação antes da gravação & Atendido \\
+	RF02 & Atualizar os horários ocupados ao longo do semestre, por reimportação da planilha ou pela manutenção das aulas no próprio sistema (RF13 a RF16) & Atendido \\
+	RF03 & Cadastrar e manter os espaços físicos do campus, incluindo os outros nomes pelos quais aparecem na planilha e a desativação de espaços fora de uso & Atendido \\
+	RF04 & Gerenciar usuários e atribuir a cada um perfil de acesso & Atendido \\
+	RF05 & Consultar a disponibilidade dos espaços físicos & Atendido \\
+	RF06 & Submeter solicitações de reserva de espaços físicos & Atendido \\
+	RF07 & Aprovar ou rejeitar solicitações de reserva & Atendido \\
+	RF08 & Cancelar reservas já aprovadas & Atendido \\
+	RF09 & Notificar automaticamente, no próprio sistema, os responsáveis pela análise quando uma nova solicitação de reserva for submetida & Atendido \\
+	RF10 & Notificar automaticamente, no próprio sistema, o solicitante sobre o resultado da análise da sua solicitação & Atendido \\
+	RF11 & Disponibilizar consulta pública, sem autenticação, aos horários dos espaços por sala, docente, curso ou turma, com o horário original e o calendário por data, sem expor e-mails nem a descrição das reservas & Atendido \\
+	RF12 & Gerar relatórios sobre a utilização dos espaços, incluindo o mapa de ocupação por dia e horário e o relatório das solicitações de reserva & Atendido \\
+	RF13 & Cadastrar aula recorrente, informando turma, disciplina, docentes, espaço, período de vigência, horário e duração & Atendido \\
+	RF14 & Alterar a recorrência de uma aula (dia, horário, duração, espaço ou docentes) a partir de uma data, sem alterar as ocorrências anteriores & Atendido \\
+	RF15 & Encerrar a recorrência de uma aula a partir de uma data, preservando o histórico das ocorrências anteriores & Atendido \\
+	RF16 & Cancelar a ocorrência de uma aula em uma data, sem alterar a recorrência, pelo administrador ou pelo docente da aula & Atendido \\
+	RF17 & Cadastrar e manter cursos, disciplinas e turmas & Atendido \\
+	RF18 & Criar perfis de acesso e definir as permissões de cada um & Atendido \\
+	RF19 & Importar usuários em lote por meio de arquivo CSV (\textit{Comma-Separated Values}) & Atendido \\
+	RF20 & Enviar ao novo usuário, por e-mail, o link para definir a senha, e permitir a recuperação de senha & Atendido \\
+	RF21 & Sugerir ao solicitante uma alternativa à reserva solicitada (outro espaço, data ou horário), que ele pode aceitar ou recusar & Atendido \\
+	RF22 & Registrar solicitação de reserva em nome de outro usuário & Atendido \\
+	RF23 & Acompanhar as próprias solicitações e ver a própria agenda de aulas e reservas & Atendido \\
+	RF24 & Publicar comunicados para todos os usuários, para os usuários de um perfil ou para usuários escolhidos & Atendido \\
+	RF25 & Exibir painel administrativo com as solicitações pendentes, a ocupação dos espaços e as pendências da grade (aulas sem espaço ou sem docente, conflitos de docente, choques entre aulas e reservas) & Atendido \\
+	RF26 & Registrar em auditoria as ações realizadas no sistema e permitir consultá-las com filtros & Atendido \\
+	RF27 & Configurar o servidor de envio de e-mails pela interface do sistema & Atendido \\
+	RF28 & Exportar o calendário público do semestre, com os filtros escolhidos, em arquivo iCalendar (.ics), para importação em aplicativos de agenda & Atendido \\
+	RF29 & Disponibilizar uma central de ajuda com tutoriais passo a passo de cada funcionalidade, com capturas das telas no computador e no celular, mostrando ao usuário só as funcionalidades liberadas para o seu perfil e abrindo direto na ajuda da tela de onde foi acessada & Atendido \\
+	\multicolumn{3}{@{}l}{\footnotesize Fonte: Elaborado pelo autor (2026).} \\
+\end{longtable}
+\end{SingleSpace}
+
+A Tabela~\ref{tab:rnf} traz os requisitos não funcionais, com a situação de cada um e o que foi feito para atendê-lo. Eles foram agrupados pelos atributos de qualidade de \citeonline{sommerville2018}: confiabilidade e segurança (RNF01, RNF02, RNF07, RNF08, RNF09); eficiência (RNF03, RNF10, RNF11); aceitabilidade (RNF04, RNF05, RNF13); e manutenibilidade (RNF06, RNF12).
+
+\begin{SingleSpace}
+\small
+\begin{longtable}{@{}p{1.5cm}>{\raggedright\arraybackslash}p{5.5cm}p{1.7cm}>{\raggedright\arraybackslash}p{6.0cm}@{}}
+	\caption{Requisitos não funcionais do sistema}\label{tab:rnf} \\
+	\hline
+	\textbf{Código} & \textbf{Descrição} & \textbf{Situação} & \textbf{Como foi atendido} \\ \hline
+	\endfirsthead
+	\multicolumn{4}{@{}l}{\small\textit{Continuação da Tabela~\thetable}} \\ \hline
+	\textbf{Código} & \textbf{Descrição} & \textbf{Situação} & \textbf{Como foi atendido} \\ \hline
+	\endhead
+	\hline
+	\endfoot
+	RNF01 & Controlar o acesso com base em papéis (RBAC), restringindo cada funcionalidade ao perfil correspondente & Atendido & Perfis configuráveis, formados por 47 permissões em 13 módulos e verificados no servidor; um teste percorre todas as rotas do sistema \\
+	RNF02 & Proteger os dados dos usuários contra acessos indevidos: proteções contra CSRF, XSS e injeção de SQL, senha do servidor de e-mail armazenada cifrada, recuperação de senha que não revela quais e-mails estão cadastrados e encerramento das sessões do usuário quando outra pessoa altera o perfil ou o e-mail dele & Atendido & Proteções do Django contra CSRF, XSS e injeção de SQL; senha do servidor de e-mail cifrada; recuperação de senha sem revelar e-mails; sessões encerradas na troca de perfil ou de e-mail \\
+	RNF03 & Ter tempo de resposta adequado nas consultas de disponibilidade, mesmo nos períodos de pico & Parcial & Cache das telas públicas no Redis, índices no banco e número fixo de consultas, verificado por testes; sem medição de desempenho \\
+	RNF04 & Funcionar no navegador web, sem instalar nada nos dispositivos dos usuários & Atendido & Aplicação web acessada pelo navegador \\
+	RNF05 & Ter usabilidade compatível com o perfil tecnológico dos docentes e consistência visual entre as telas, sem exigir treinamento extenso & Parcial & Heurísticas adotadas, termos do campus e componentes padronizados, verificados por testes da interface; sem avaliação com usuários \\
+	RNF06 & Ser manutenível, com separação clara entre as camadas de dados, lógica e apresentação & Atendido & Padrão MTV, com as regras de negócio nas classes de modelo e o código organizado por módulo \\
+	RNF07 & Funcionar sem depender da infraestrutura de horários do campus, sem consultas em tempo real a sistemas externos & Atendido & Ensalamento importado da planilha por ação administrativa, sem consulta a sistemas externos \\
+	RNF08 & Impedir reservas sobrepostas de um mesmo espaço, mesmo quando solicitações são analisadas ao mesmo tempo, por restrição de integridade no banco & Atendido & Restrição de exclusão no PostgreSQL (Seção~\ref{sec:modelo-fisico}) \\
+	RNF09 & Não permitir alterar nem excluir os registros de auditoria & Atendido & O registro de auditoria recusa alteração e exclusão, e não há tela para isso \\
+	RNF10 & Enviar os e-mails em segundo plano, com novas tentativas em caso de falha, sem atrasar a resposta ao usuário & Atendido & Fila de e-mails no banco, processada em segundo plano, com novas tentativas \\
+	RNF11 & Exibir as notificações em tempo real, sem recarregar a página & Atendido & Django Channels com WebSocket; o sino do cabeçalho é atualizado sem recarregar a página \\
+	RNF12 & Ser distribuído em contêineres, para facilitar a execução em ambientes diferentes & Atendido & Imagem Docker e Docker Compose com a aplicação, o banco, o Redis e os processos em segundo plano \\
+	RNF13 & Adaptar as telas a computadores e celulares & Atendido & Layout responsivo com Tailwind CSS e navegação própria no celular, verificados por testes da interface \\
+	\hline
+	\multicolumn{4}{@{}l}{\footnotesize Fonte: Elaborado pelo autor (2026).} \\
+\end{longtable}
+\end{SingleSpace}
+
+Dos 13 requisitos não funcionais, 11 foram atendidos e 2 foram atendidos em parte, o RNF03 e o RNF05. Para o RNF03, que trata do tempo de resposta nas consultas de disponibilidade, foram tomadas algumas medidas. As telas públicas, onde essas consultas se concentram, são servidas por um cache no Redis, atualizado sempre que os dados mudam, e as tabelas mais consultadas têm índices. Além disso, a grade semanal de um espaço é montada com um número fixo de consultas ao banco, verificado por testes, que não aumenta conforme cresce a quantidade de aulas. Mesmo assim, não houve medição do tempo de resposta nem teste de carga, então não é possível afirmar como o sistema se comporta nos horários de pico. No RNF05, a interface seguiu as heurísticas adotadas e usa os termos do campus, e a consistência visual das telas é verificada por testes da interface. A usabilidade, porém, não foi avaliada com os usuários finais.
+
+Os 29 requisitos funcionais foram atendidos. A Tabela~\ref{tab:funcionalidades} mostra as funcionalidades implementadas em cada módulo e os requisitos que cada uma atende, e a Tabela~\ref{tab:testes} (Seção~\ref{sec:resultado-validacao}) resume os testes que verificam as principais regras.
+
+\begin{table}[H]
+	\centering
+	\caption{Funcionalidades do sistema por módulo e requisitos atendidos}
+	\renewcommand{\arraystretch}{1.25}
+	\newcommand{\fitem}[1]{\par\hangindent=1em\hangafter=1\noindent\makebox[1em][l]{\textbullet}#1}
+	\begin{tabular}{@{}>{\raggedright\arraybackslash}p{4.0cm}>{\raggedright\arraybackslash}p{9.8cm}@{}}
+	\hline
+		\textbf{Módulo} & \textbf{Funcionalidades principais e requisitos} \\ \hline
+		Ensalamento & \fitem{Importação da planilha de horários, com prévia e confirmação (RF01)}\fitem{Associação dos espaços da planilha aos já cadastrados (RF01)}\fitem{Atualização por reimportação ou pela manutenção das aulas (RF02)}\fitem{Aulas recorrentes: cadastro, alteração, encerramento e cancelamento de ocorrências (RF13--RF16)} \\ \arrayrulecolor{black!25}\hline\arrayrulecolor{black}
+		Espaços, cursos, disciplinas e turmas & \fitem{Cadastro e manutenção de espaços, com outros nomes e desativação (RF03)}\fitem{Cadastro e manutenção de cursos, disciplinas e turmas (RF17)} \\ \arrayrulecolor{black!25}\hline\arrayrulecolor{black}
+		Usuários e perfis & \fitem{Cadastro individual (RF04) ou em lote, por CSV (RF19)}\fitem{Definição e recuperação de senha (RF20)}\fitem{Perfis com permissões definidas pelo superadministrador (RF18)} \\ \arrayrulecolor{black!25}\hline\arrayrulecolor{black}
+		Agenda de reservas & \fitem{Consulta da disponibilidade dos espaços (RF05)}\fitem{Solicitação (RF06), inclusive em nome de outro usuário (RF22)}\fitem{Análise: aprovação ou rejeição (RF07) ou sugestão de alternativa (RF21)}\fitem{Cancelamento de reservas aprovadas (RF08)}\fitem{Acompanhamento das próprias solicitações e da própria agenda (RF23)} \\ \arrayrulecolor{black!25}\hline\arrayrulecolor{black}
+		Notificações e comunicados & \fitem{Avisos em tempo real aos responsáveis e ao solicitante (RF09, RF10)}\fitem{Comunicados para todos, para um perfil ou para usuários escolhidos (RF24)} \\ \arrayrulecolor{black!25}\hline\arrayrulecolor{black}
+		Consulta pública & \fitem{Calendário por data, com filtros por sala, docente, curso e turma, e horário original da planilha (RF11)}\fitem{Exportação do calendário em iCalendar (RF28)} \\ \arrayrulecolor{black!25}\hline\arrayrulecolor{black}
+		Painel, relatórios e auditoria & \fitem{Painel de pendências e solicitações (RF25)}\fitem{Mapa de ocupação por dia e horário e relatório de solicitações (RF12)}\fitem{Registro das ações, sem alteração ou exclusão (RF26)} \\ \arrayrulecolor{black!25}\hline\arrayrulecolor{black}
+		Configurações & \fitem{Servidor de envio de e-mails configurado pela interface (RF27)} \\ \arrayrulecolor{black!25}\hline\arrayrulecolor{black}
+		Central de ajuda & \fitem{Tutoriais por tela, filtrados pelas permissões do usuário (RF29)} \\ \hline
+	\end{tabular}
+	\caption*{\footnotesize Fonte: Elaborado pelo autor (2026).}
+	\label{tab:funcionalidades}
+\end{table}
+
+%-----------------------------------
+\section{Modelagem do Sistema}
+\label{sec:resultado-modelagem}
+
+A modelagem produziu três diagramas UML, que correspondem à versão implementada, e os modelos conceitual, lógico e físico do banco de dados.
+
+\subsection{Diagramas UML}
+\label{sec:resultado-uml}
+
+O diagrama de casos de uso (Figura~\ref{fig:casos_uso}) organiza as funcionalidades em módulos. Como os perfis do sistema são configuráveis (Seção~\ref{sec:rbac}), cada ator representa um conjunto de permissões, e não um perfil fixo: Solicitante, Analista de reservas, Gestor do ensalamento e Administrador especializam o Usuário autenticado, e o Superadministrador especializa o Administrador. O Visitante representa a consulta pública, sem autenticação.
+
+\begin{figure}[!htb]
+    \centering
+    \caption{Diagrama de Casos de Uso do IFAgenda}
+    \resizebox{\textwidth}{!}{\input{Figuras/uml-casos-de-uso}}
+    \caption*{Fonte: Elaborado pelo autor (2026).}
+    \label{fig:casos_uso}
+\end{figure}
+
+O diagrama de classes (Figura~\ref{fig:classes}) apresenta as 18 classes do domínio, com seus atributos principais e as multiplicidades das associações. Classes de apoio, como importação, auditoria e fila de e-mails, foram omitidas para preservar a legibilidade.
+
+\begin{figure}[p]
+    \centering
+    \caption{Diagrama de classes do sistema}
+    \resizebox{\textwidth}{!}{\input{Figuras/uml-classes}}
+    \caption*{Fonte: Elaborado pelo autor (2026).}
+    \label{fig:classes}
+\end{figure}
+
+O diagrama de sequência (Figura~\ref{fig:sequencia}) detalha a solicitação e a aprovação de uma reserva. Os fragmentos \textit{alt} mostram as duas verificações de conflito de horário: a primeira na solicitação e a segunda na aprovação, quando a restrição do banco de dados impede agendamentos sobrepostos (RNF08).
+
+\begin{figure}[p]
+    \centering
+    \caption{Diagrama de sequência da solicitação e aprovação de reserva}
+    \resizebox{\textwidth}{!}{\input{Figuras/uml-sequencia}}
+    \caption*{Fonte: Elaborado pelo autor (2026).}
+    \label{fig:sequencia}
+\end{figure}
+
+% Todas as figuras UML saem antes do banco de dados.
+\clearpage
+\subsection{Banco de Dados}
+\label{sec:resultado-banco}
+
+O banco de dados foi projetado nos três níveis descritos por \citeonline{heuser2009}: conceitual, lógico e físico (Seção~\ref{sec:bd}). Os modelos apresentados a seguir correspondem à versão implementada do sistema. Os modelos lógico e físico representam o esquema completo do banco, enquanto o conceitual se concentra no domínio do problema, como detalhado na Seção~\ref{sec:modelo-conceitual}.
+
+\subsubsection{Modelo Conceitual}
+\label{sec:modelo-conceitual}
+
+O modelo conceitual, apresentado na Figura~\ref{fig:der-conceitual}, segue a notação de Peter Chen. As entidades aparecem em retângulos, os relacionamentos em losangos e os atributos ao lado de cada entidade, com o identificador destacado. A cardinalidade mínima e máxima de cada entidade aparece junto à linha do relacionamento.
+
+O núcleo do modelo está nas entidades Espaço, Ensalamento, Solicitação e Agendamento. Um Ensalamento representa uma aula recorrente da grade importada: ocupa um espaço em um dia da semana e em uma faixa de horário, dentro de um semestre, e se liga à turma, à disciplina e aos docentes. Uma Solicitação é feita por um usuário para um espaço e analisada por um usuário com permissão para isso; quando aprovada, gera no máximo um Agendamento, que passa a ocupar o espaço. Cada Usuário tem no máximo um Perfil, e cada Perfil concede um conjunto de Permissões, o que corresponde à restrição de cardinalidade do modelo RBAC adotado (Seção~\ref{sec:rbac}). As demais entidades apoiam a importação da planilha (Importação, Linha da importação, Decisão de espaço e Outro nome), a comunicação com os usuários (Aviso e Notificação) e a rastreabilidade das ações (Registro de auditoria).
+
+Para manter o diagrama legível, o modelo conceitual representa apenas as entidades e os relacionamentos de negócio. Ficaram de fora as tabelas de infraestrutura, que guardam a fila de envio de e-mails e as configurações do sistema, e as referências secundárias que registram a autoria das operações, como quem aprovou ou cancelou uma reserva, quem registrou uma solicitação em nome de outro usuário, quem resolveu uma importação ou decidiu a correspondência de um espaço, além do espaço sugerido como alternativa e da importação que originou um espaço. Esses elementos aparecem nos modelos lógico e físico, que representam o esquema completo.
+
+\begin{landscape}
+\begin{figure}[p]
+    \centering
+    \caption{Modelo conceitual do banco de dados}
+    \includegraphics[width=\linewidth,height=0.93\textheight,keepaspectratio]{Figuras/banco/der-conceitual.pdf}
+    \caption*{Fonte: Elaborado pelo autor (2026).}
+    \label{fig:der-conceitual}
+\end{figure}
+\end{landscape}
+
+\subsubsection{Modelo Lógico}
+\label{sec:modelo-logico}
+
+O modelo lógico, apresentado na Tabela~\ref{tab:modelo-logico}, descreve o esquema relacional: cada entidade e cada relacionamento muitos-para-muitos do modelo conceitual tornaram-se uma tabela, com sua chave primária (sublinhada) e as chaves estrangeiras (em itálico, indicadas por FK, do inglês \textit{Foreign Key}) que materializam os relacionamentos. Os nomes das tabelas seguem a convenção do Django, formada pelo nome do módulo da aplicação e pelo nome da classe de modelo. As tabelas foram agrupadas pelos módulos do sistema.
+
+\begin{SingleSpace}
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{\linewidth}@{}}
+	\caption{Modelo lógico do banco de dados}\label{tab:modelo-logico} \\
+	\hline
+	\textbf{Tabela(colunas)} \\ \hline
+	\endfirsthead
+	\multicolumn{1}{@{}l}{\small\textit{Continuação da Tabela~\thetable}} \\ \hline
+	\textbf{Tabela(colunas)} \\ \hline
+	\endhead
+	\hline
+	\multicolumn{1}{@{}p{\linewidth}@{}}{\footnotesize Legenda: chave primária sublinhada; chave estrangeira em itálico, com a tabela referenciada indicada após ``FK''.} \\
+	\multicolumn{1}{@{}l}{\footnotesize Fonte: Elaborado pelo autor (2026).} \\
+	\endlastfoot
+	\hline
+	\endfoot
+	\multicolumn{1}{@{}l}{\textbf{Contas e controle de acesso}} \\*
+	accounts\_user(\underline{id}, password, last\_login, email, name, username, is\_active, is\_superadmin, session\_epoch, created\_at) \\
+	accounts\_role(\underline{id}, code, name, description) \\
+	accounts\_permission(\underline{id}, code, description) \\
+	accounts\_rolepermission(\underline{id}, \textit{role\_id}, \textit{permission\_id}) \newline {\footnotesize FK: role\_id~$\rightarrow$~accounts\_role; permission\_id~$\rightarrow$~accounts\_permission} \\
+	accounts\_userrole(\underline{id}, \textit{user\_id}, \textit{role\_id}) \newline {\footnotesize FK: user\_id~$\rightarrow$~accounts\_user; role\_id~$\rightarrow$~accounts\_role} \\
+	\multicolumn{1}{@{}l}{\textbf{Ensalamento}} \\*
+	schedule\_semester(\underline{id}, code, start\_date, end\_date) \\
+	schedule\_timeslot(\underline{id}, \textit{semester\_id}, start\_time, end\_time) \newline {\footnotesize FK: semester\_id~$\rightarrow$~schedule\_semester} \\
+	schedule\_course(\underline{id}, name, stage) \\
+	schedule\_classgroup(\underline{id}, \textit{course\_id}, label) \newline {\footnotesize FK: course\_id~$\rightarrow$~schedule\_course} \\
+	schedule\_subject(\underline{id}, name) \\
+	schedule\_classoffering(\underline{id}, \textit{semester\_id}, \textit{subject\_id}, \textit{class\_group\_id}) \newline {\footnotesize FK: semester\_id~$\rightarrow$~schedule\_semester; subject\_id~$\rightarrow$~schedule\_subject; class\_group\_id~$\rightarrow$~schedule\_classgroup} \\
+	schedule\_teacher(\underline{id}, name) \\
+	schedule\_teachingassignment(\underline{id}, \textit{offering\_id}, \textit{teacher\_id}, is\_current) \newline {\footnotesize FK: offering\_id~$\rightarrow$~schedule\_classoffering; teacher\_id~$\rightarrow$~schedule\_teacher} \\
+	schedule\_space(\underline{id}, name, origin, \textit{source\_import\_id}, is\_active) \newline {\footnotesize FK: source\_import\_id~$\rightarrow$~imports\_import} \\
+	schedule\_spacename(\underline{id}, \textit{space\_id}, name) \newline {\footnotesize FK: space\_id~$\rightarrow$~schedule\_space} \\
+	schedule\_allocation(\underline{id}, \textit{semester\_id}, \textit{class\_group\_id}, \textit{subject\_id}, \textit{space\_id}, weekday, \textit{time\_slot\_id}, origin, valid\_from, valid\_until) \newline {\footnotesize FK: semester\_id~$\rightarrow$~schedule\_semester; class\_group\_id~$\rightarrow$~schedule\_classgroup; subject\_id~$\rightarrow$~schedule\_subject; space\_id~$\rightarrow$~schedule\_space; time\_slot\_id~$\rightarrow$~schedule\_timeslot} \\
+	schedule\_allocation\_teachers(\underline{id}, \textit{allocation\_id}, \textit{teacher\_id}) \newline {\footnotesize FK: allocation\_id~$\rightarrow$~schedule\_allocation; teacher\_id~$\rightarrow$~schedule\_teacher} \\
+	schedule\_allocationexception(\underline{id}, \textit{allocation\_id}, date, kind, \textit{created\_by\_id}, created\_at) \newline {\footnotesize FK: allocation\_id~$\rightarrow$~schedule\_allocation; created\_by\_id~$\rightarrow$~accounts\_user} \\
+	schedule\_spacedecision(\underline{id}, \textit{importation\_id}, found\_name, kind, \textit{space\_id}, target\_name, \textit{decided\_by\_id}, decided\_at) \newline {\footnotesize FK: importation\_id~$\rightarrow$~imports\_import; space\_id~$\rightarrow$~schedule\_space; decided\_by\_id~$\rightarrow$~accounts\_user} \\
+	\multicolumn{1}{@{}l}{\textbf{Reservas}} \\*
+	bookings\_bookingrequest(\underline{id}, \textit{requested\_by\_id}, \textit{teaching\_assignment\_id}, \textit{created\_by\_id}, \textit{space\_id}, date, start\_time, end\_time, description, student\_count, status, rejection\_reason, \textit{suggested\_space\_id}, suggested\_date, suggested\_start\_time, suggested\_end\_time, suggestion\_message, \textit{decided\_by\_id}, decided\_at, responded\_at, \textit{cancelled\_by\_id}, cancelled\_at, cancellation\_reason, created\_at) \newline {\footnotesize FK: requested\_by\_id~$\rightarrow$~accounts\_user; teaching\_assignment\_id~$\rightarrow$~schedule\_teachingassignment; created\_by\_id~$\rightarrow$~accounts\_user; space\_id~$\rightarrow$~schedule\_space; suggested\_space\_id~$\rightarrow$~schedule\_space; decided\_by\_id~$\rightarrow$~accounts\_user; cancelled\_by\_id~$\rightarrow$~accounts\_user} \\
+	bookings\_booking(\underline{id}, \textit{request\_id}, \textit{space\_id}, starts\_at, ends\_at, description, student\_count, \textit{requested\_by\_id}, \textit{approved\_by\_id}, created\_at) \newline {\footnotesize FK: request\_id~$\rightarrow$~bookings\_bookingrequest; space\_id~$\rightarrow$~schedule\_space; requested\_by\_id~$\rightarrow$~accounts\_user; approved\_by\_id~$\rightarrow$~accounts\_user} \\
+	\multicolumn{1}{@{}l}{\textbf{Importação da planilha}} \\*
+	imports\_import(\underline{id}, kind, status, file\_name, \textit{created\_by\_id}, created\_at, \textit{resolved\_by\_id}, resolved\_at, revalidation\_count, file\_errors, operation, \textit{requested\_by\_id}, requested\_at, attempts, next\_attempt\_at, last\_error, outcome, outcome\_message) \newline {\footnotesize FK: created\_by\_id~$\rightarrow$~accounts\_user; resolved\_by\_id~$\rightarrow$~accounts\_user; requested\_by\_id~$\rightarrow$~accounts\_user} \\
+	imports\_importrow(\underline{id}, \textit{parent\_id}, line\_number, values, action, target, changes, warnings, errors, pending, created\_object) \newline {\footnotesize FK: parent\_id~$\rightarrow$~imports\_import} \\
+	\multicolumn{1}{@{}l}{\textbf{Comunicados e notificações}} \\*
+	notices\_notice(\underline{id}, type, title, message, destination, recipients\_count, \textit{published\_by\_id}, created\_at) \newline {\footnotesize FK: published\_by\_id~$\rightarrow$~accounts\_user} \\
+	notices\_notification(\underline{id}, \textit{recipient\_id}, \textit{notice\_id}, type, title, message, target\_url, read\_at, created\_at) \newline {\footnotesize FK: recipient\_id~$\rightarrow$~accounts\_user; notice\_id~$\rightarrow$~notices\_notice} \\
+	\multicolumn{1}{@{}l}{\textbf{Auditoria, fila de e-mails e configurações}} \\*
+	audit\_auditlog(\underline{id}, \textit{user\_id}, action, resource, resource\_id, old\_values, new\_values, metadata, origin, ip\_address, user\_agent, created\_at) \newline {\footnotesize FK: user\_id~$\rightarrow$~accounts\_user} \\
+	outbox\_outboxentry(\underline{id}, kind, reference, status, attempts, next\_attempt\_at, last\_error, created\_at, sent\_at) \\
+	system\_settings\_systemsetting(\underline{id}, kind, value, created\_at, updated\_at) \\
+\end{longtable}
+\end{SingleSpace}
+
+\subsubsection{Modelo Físico}
+\label{sec:modelo-fisico}
+
+O modelo físico (Figura~\ref{fig:der-fisico}) mostra as 28 tabelas no PostgreSQL, com o tipo de cada coluna, a obrigatoriedade e as chaves primárias (PK, do inglês \textit{Primary Key}), estrangeiras (FK) e únicas (UK, do inglês \textit{Unique Key}). Algumas regras ficam fora do diagrama por serem restrições declaradas no esquema. A principal é a \texttt{booking\_no\_overlap}, que impede agendamentos sobrepostos no mesmo espaço, mesmo quando duas solicitações são aprovadas ao mesmo tempo (RNF08). Essas regras são criadas pelas \textit{migrations} do Django e versionadas junto com o código.
+
+\begin{landscape}
+\begin{figure}[p]
+    \centering
+    \caption{Modelo físico do banco de dados}
+    \includegraphics[width=\linewidth,height=0.86\textheight,keepaspectratio]{Figuras/banco/der-fisico.pdf}
+    \caption*{Fonte: Elaborado pelo autor (2026).}
+    \label{fig:der-fisico}
+\end{figure}
+\end{landscape}
+
+%-----------------------------------
+\section{Sistema Desenvolvido}
+\label{sec:resultado-sistema}
+
+O IFAgenda é uma aplicação web funcional, executada em ambiente local e acessada pelo navegador. Ele foi escrito em Python com o \textit{framework} Django, usa o PostgreSQL como banco de dados e roda em contêineres orquestrados pelo Docker Compose. A interface usa os \textit{templates} do Django com o Tailwind CSS. As subseções a seguir tratam da arquitetura, da organização do código, dos modelos de dados, das funcionalidades, da importação da planilha e das principais telas.
+
+\subsection{Arquitetura}
+\label{sec:resultado-arquitetura}
+
+O sistema é uma única aplicação Django (monolítica), no padrão MTV, dividida em um módulo para cada parte do domínio. Todos os dados ficam no PostgreSQL, e as tarefas mais demoradas rodam em processos à parte, que usam o próprio banco como fila. A Figura~\ref{fig:arquitetura} mostra os contêineres e a comunicação entre eles, incluindo o envio de e-mails por um servidor \textit{Simple Mail Transfer Protocol} (SMTP).
+
+\begin{figure}[!htb]
+    \centering
+    \caption{Contêineres e comunicação do IFAgenda}
+    \begin{tikzpicture}[
+        font=\small,
+        caixa/.style={draw, rounded corners=2pt, align=center, text width=3.0cm, minimum height=1.3cm, fill=black!4},
+        rotulo/.style={font=\footnotesize, align=center, fill=white, inner sep=1.5pt},
+        seta/.style={-{Stealth[length=2mm]}, thick},
+        dupla/.style={{Stealth[length=2mm]}-{Stealth[length=2mm]}, thick}]
+        \node[caixa, fill=white] (nav) at (0,0) {Navegador};
+        \node[caixa] (web) at (5.4,0) {\textbf{web}\\Django};
+        \node[caixa] (redis) at (10.8,0) {\textbf{redis}\\cache e canal das notificações};
+        \node[caixa] (worker) at (0,-3.6) {\textbf{worker}\\envio de e-mails};
+        \node[caixa] (db) at (5.4,-3.6) {\textbf{db}\\PostgreSQL};
+        \node[caixa] (imp) at (10.8,-3.6) {\textbf{import\_worker}\\importação de planilhas};
+        \node[caixa, fill=white] (smtp) at (0,-6.6) {Servidor de e-mail (SMTP)};
+        \draw[dupla] (nav) -- node[rotulo, above=3pt]{HTTP e\\WebSocket} (web);
+        \draw[dupla] (web) -- (redis);
+        \draw[dupla] (web) -- node[rotulo, right=3pt]{leitura e\\gravação} (db);
+        \draw[dupla] (worker) -- node[rotulo, above=3pt]{fila de\\e-mails} (db);
+        \draw[dupla] (imp) -- node[rotulo, above=3pt]{fila de\\importações} (db);
+        \draw[seta] (imp) -- node[rotulo, right=3pt]{aviso de\\conclusão} (redis);
+        \draw[seta] (worker) -- (smtp);
+    \end{tikzpicture}
+    \caption*{Fonte: Elaborado pelo autor (2026).}
+    \label{fig:arquitetura}
+\end{figure}
+
+Em execução, são cinco serviços, definidos no arquivo do Docker Compose; um sexto, usado só no desenvolvimento, compila os estilos. O \texttt{web} recebe as requisições HTTP e mantém as conexões WebSocket das notificações. O \texttt{worker} envia os e-mails que estão na fila do banco por meio do servidor SMTP e tenta de novo quando o envio falha. O \texttt{import\_worker} faz a prévia e a confirmação das importações de planilhas. O \texttt{db} é o PostgreSQL, e o \texttt{redis} guarda o cache das telas públicas e serve de canal para as notificações em tempo real. Os três primeiros usam a mesma imagem e o mesmo código; muda só o comando que cada um executa.
+
+Toda requisição segue o mesmo caminho. Antes de chegar à \textit{view}, ela passa pelos \textit{middlewares} de sessão, CSRF e autenticação e por dois \textit{middlewares} criados para o sistema: um confere se o usuário tem a permissão que a tela exige, e o outro registra quem fez a requisição, para a auditoria. A \textit{view} chama uma operação do \textit{model}, que abre uma transação, confere as regras de negócio e grava, junto, o registro de auditoria, as notificações e os e-mails a enviar. Se alguma regra não for atendida, nada é gravado, e o usuário vê o erro no próprio formulário.
+
+Alguns padrões aparecem em todo o código. As regras de negócio ficam nos \textit{models}, sem uma camada de serviços à parte. Os e-mails entram na fila na mesma transação da operação que os gerou e só depois são enviados pelo \texttt{worker}. A prévia de uma importação faz todas as gravações e desfaz tudo no final, por isso mostra exatamente o que a confirmação vai fazer. As ocorrências das aulas recorrentes não são gravadas uma a uma: o sistema as calcula a partir da regra semanal. Os registros de auditoria só aceitam inserção, e o cache das telas públicas é descartado sempre que muda algum dado exibido nelas.
+
+\subsection{Estrutura de Arquivos}
+\label{sec:resultado-estrutura}
+
+O código é dividido em aplicações Django, uma para cada parte do sistema, como mostra a Tabela~\ref{tab:estrutura}.
+
+\begin{table}[!htb]
+	\centering
+	\caption{Estrutura de pastas do projeto}
+	\small
+	\begin{tabular}{@{}>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{11.2cm}@{}}
+	\hline
+		\textbf{Pasta} & \textbf{Conteúdo} \\ \hline
+		\texttt{config/} & Configurações do Django, rotas principais e pontos de entrada HTTP e WebSocket \\
+		\texttt{accounts/} & Usuários, perfis e permissões, autenticação, importação de usuários e comandos de administração \\
+		\texttt{schedule/} & Ensalamento: semestres, faixas de horário, espaços, docentes, cursos, turmas, disciplinas, aulas, importação da planilha e calendário público \\
+		\texttt{bookings/} & Agenda: solicitações de agendamento e agendamentos \\
+		\texttt{imports/} & Mecanismo genérico de importação de planilhas e o processo que o executa \\
+		\texttt{notices/} & Notificações, comunicados e o canal WebSocket \\
+		\texttt{outbox/} & Fila de e-mails e o processo de envio \\
+		\texttt{audit/} & Registro de auditoria e a tela de consulta \\
+		\texttt{panel/} & Painel administrativo \\
+		\texttt{reports/} & Mapa de calor e relatório de solicitações \\
+		\texttt{system\_settings/} & Configuração do servidor de e-mail, com a senha cifrada \\
+		\texttt{tutorials/} & Central de ajuda, com os tutoriais e as imagens \\
+		\texttt{ui/} & Layouts, componentes visuais, ícones, menu e estilos do Tailwind CSS \\
+		\texttt{docs/} & Documentação técnica do sistema \\ \hline
+	\end{tabular}
+	\caption*{Fonte: Elaborado pelo autor (2026).}
+	\label{tab:estrutura}
+\end{table}
+
+Em geral, cada aplicação segue a mesma organização: \texttt{models.py} guarda as entidades e as regras de negócio, \texttt{views.py} as telas, \texttt{urls.py} as rotas e \texttt{forms.py} os formulários; a pasta \texttt{templates/} tem o HTML, a \texttt{tests/} os testes automatizados e a \texttt{migrations/} as alterações do esquema do banco. Na raiz do projeto ficam o \texttt{Dockerfile}, o arquivo do Docker Compose e o \texttt{Makefile}, que reúne os comandos do dia a dia, como subir o ambiente, aplicar as \textit{migrations} e rodar os testes.
+
+\subsection{Modelos do Banco de Dados}
+\label{sec:resultado-modelos}
+
+São 27 classes de modelo, que geram as 28 tabelas do modelo físico (Seção~\ref{sec:resultado-banco}); a tabela a mais liga as aulas aos seus docentes. A parte de contas e acesso tem os usuários, os perfis, as permissões e as ligações entre eles. O ensalamento é a parte maior: semestres, faixas de horário, espaços e seus outros nomes, docentes, cursos, turmas, disciplinas, ofertas de disciplina, vínculos dos docentes, aulas recorrentes, ocorrências canceladas e as decisões sobre espaços tomadas nas importações. A agenda guarda as solicitações e os agendamentos, e a importação guarda cada arquivo enviado e cada linha lida dele. Completam o modelo a auditoria, a fila de e-mails, os comunicados, as notificações e as configurações do sistema.
+
+\subsection{Funcionalidades}
+\label{sec:resultado-funcionalidades}
+
+A aplicação reúne os módulos necessários à gestão dos espaços e das reservas. O módulo de ensalamento permite importar a planilha de horários do campus, revisar os dados antes da confirmação, associar os espaços da planilha aos espaços cadastrados e administrar aulas recorrentes. Os módulos de cadastro mantêm espaços, cursos, disciplinas, turmas, usuários e perfis.
+
+O fluxo de reservas permite que o usuário consulte a disponibilidade, solicite uma reserva e acompanhe suas solicitações. Os responsáveis podem aprovar ou rejeitar pedidos e sugerir alternativas de espaço, data ou horário. A solução também oferece consulta pública do calendário, notificações internas em tempo real, comunicados, painel administrativo, mapa de ocupação, relatórios, exportação em formato iCalendar, auditoria das ações e central de ajuda. As funcionalidades de cada módulo, com os requisitos que atendem, estão resumidas na Tabela~\ref{tab:funcionalidades} (Seção~\ref{sec:resultado-requisitos}).
+
+O acesso é controlado por perfis configuráveis. Cada permissão corresponde a uma ação sobre um recurso do sistema, como solicitar uma reserva ou editar um espaço, e o sistema tem 47 delas, divididas em 13 módulos. O superadministrador monta os perfis escolhendo as permissões, e cada perfil pode receber até 41; as outras 6, que tratam dos perfis e das configurações, ficam só com o superadministrador. Os perfis Administrador e Docente já vêm cadastrados, mas servem apenas de exemplo e podem ser alterados. Outras categorias, como a dos técnicos administrativos, recebem um perfil com as permissões de que precisam. A consulta pública não exige login.
+
+As notificações aparecem no próprio sistema, em um ícone no cabeçalho que é atualizado em tempo real, sem recarregar a página. Quando chega uma solicitação de reserva, os responsáveis pela análise são notificados, e, depois da decisão, o solicitante recebe o resultado. O e-mail é usado só para definir e recuperar a senha. O servidor de envio é configurado pela interface, e as mensagens saem em segundo plano. O mesmo vale para a importação da planilha: as tarefas mais demoradas rodam em processos separados, que leem filas gravadas no banco e tentam de novo quando algo falha.
+
+Na interface, foram aplicadas as três heurísticas de \citeonline{nielsen1994} adotadas como diretrizes de projeto (Seção~\ref{sec:usab}). O solicitante sempre vê a situação de cada pedido (pendente, aprovado, rejeitado, com alternativa sugerida ou cancelado), o que atende à visibilidade do estado do sistema. As telas usam os termos do próprio campus, como espaço, reserva, ensalamento e semestre, o que atende à correspondência com o mundo real. E o conflito de horário é verificado antes do envio da solicitação, com a indicação do intervalo já ocupado, o que atende à prevenção de erros.
+
+\subsection{Importação da Planilha de Horários}
+\label{sec:resultado-importacao}
+
+Para medir a importação, foi usada a planilha sugerida, montada a partir da planilha de horários de 2026/2 enviada pela Direção de Ensino em 24 de setembro de 2026: as abas calculadas foram retiradas, e entrou uma aba de usuários. O formato foi apresentado à Direção em 7 de outubro de 2026 e aceito pelo campus, e a tela de importação oferece um modelo em branco nele, com instruções.
+
+A planilha original também é aceita. No banco vazio, a prévia leu 1.706 linhas e apontou 121 aulas com problema, 120 com docente ausente da lista de docentes da própria planilha e uma sem disciplina, além de oito nomes de espaço que exigem decisão, como HV1, parecido com HV 1. Esses casos precisam ser resolvidos antes da confirmação.
+
+A importação foi feita em uma instalação nova do sistema, com o banco vazio, como dados do semestre 2026/2. O arquivo tem 1.842 linhas, distribuídas nas abas de horários da graduação e do ensino médio e na aba de usuários. A prévia não encontrou erros nem pendências, e a importação foi confirmada logo em seguida. O que foi cadastrado está na Tabela~\ref{tab:importacao}.
+
+\begin{table}[!htb]
+	\centering
+	\caption{Resultado da importação da planilha de horários}
+	\begin{tabular}{@{}>{\raggedright\arraybackslash}p{9.0cm}r@{}}
+	\hline
+		\textbf{Item} & \textbf{Quantidade} \\ \hline
+		Linhas lidas do arquivo & 1.842 \\
+		Linhas cadastradas & 1.841 \\
+		Linhas sem alteração & 1 \\
+		Linhas com erro & 0 \\ \hline
+		Espaços & 85 \\
+		Usuários (docentes) & 129 \\
+		Cursos & 15 \\
+		Turmas & 56 \\
+		Disciplinas & 276 \\
+		Ofertas de disciplina & 563 \\
+		Vínculos de docentes com ofertas & 619 \\
+		Faixas de horário & 15 \\
+		Aulas recorrentes & 1.498 \\ \hline
+	\end{tabular}
+	\caption*{Fonte: Elaborado pelo autor (2026).}
+	\label{tab:importacao}
+\end{table}
+
+Os tempos vêm dos registros do processo de importação, que anota quando cada operação começa e termina. A prévia levou cerca de 2,5 segundos, e a confirmação, cerca de 2,2 segundos. Foi uma medição única, feita no computador do autor com o sistema em contêineres Docker, e serve só para dar a ordem de grandeza, não como medida de desempenho. As 1.498 aulas recorrentes cadastradas formam a ocupação semanal dos espaços em todo o semestre, que passa a aparecer na agenda, no calendário público e nos relatórios.
+
+\subsection{Telas do Sistema}
+\label{sec:resultado-telas}
+
+As imagens desta seção foram capturadas na mesma instalação usada para medir a importação, com os dados da planilha do campus. Nomes e e-mails de pessoas foram trocados por pseudônimos, como ``Docente 001''. As solicitações que aparecem nas telas foram feitas pela própria interface, no \mbox{Lab.~1 - Info}, para a semana de 16 a 20 de novembro de 2026: uma foi aprovada, uma rejeitada, uma recebeu sugestão de alternativa e uma ficou pendente. Houve ainda uma tentativa recusada por conflito com uma aula. As 45 telas do sistema, com a rota, quem tem acesso e uma descrição de cada uma, estão no arquivo \texttt{TCC\_II/telas/README.md}, no repositório do trabalho no GitHub \cite{goncalves2026ifagenda}.
+
+O calendário público (Figura~\ref{fig:tela-calendario}) pode ser consultado por qualquer pessoa, sem login. Os filtros são semestre, sala, docente, curso, nível e período, e a grade mostra juntas as aulas do ensalamento e os agendamentos aprovados, como o de quarta-feira, sem e-mails nem descrições.
+
+\begin{figure}[!htb]
+    \centering
+    \caption{Calendário público}
+    \fbox{\includegraphics[width=0.78\textwidth]{telas/imgs/calendario-publico.png}}
+    \caption*{Fonte: Elaborado pelo autor (2026).}
+    \label{fig:tela-calendario}
+\end{figure}
+
+Depois do login, quem analisa as solicitações começa pelo painel (Figura~\ref{fig:tela-painel}), que resume as pendências do semestre: solicitações para decidir, solicitações à espera de resposta do solicitante, aulas sem espaço e importações em aberto.
+
+\begin{figure}[H]
+    \centering
+    \caption{Painel administrativo}
+    \fbox{\includegraphics[width=0.78\textwidth]{telas/imgs/painel.png}}
+    \caption*{Fonte: Elaborado pelo autor (2026).}
+    \label{fig:tela-painel}
+\end{figure}
+
+A agenda (Figura~\ref{fig:tela-agenda}) mostra a semana de uma sala, com as aulas e os agendamentos. Para pedir um horário, o docente clica em um espaço livre da grade.
+
+\begin{figure}[H]
+    \centering
+    \caption{Agenda semanal de uma sala, vista por um docente}
+    \fbox{\includegraphics[width=0.78\textwidth]{telas/imgs/agenda-docente.png}}
+    \caption*{Fonte: Elaborado pelo autor (2026).}
+    \label{fig:tela-agenda}
+\end{figure}
+
+O formulário abre sobre a própria agenda, já com o espaço, a data e o horário clicados. O docente pode estender o horário de término, informa a descrição e a quantidade de alunos e, antes de enviar, confere os dados em um resumo (Figura~\ref{fig:tela-revisao}).
+
+\begin{figure}[H]
+    \centering
+    \caption{Revisão da solicitação de agendamento}
+    \fbox{\includegraphics[width=0.78\textwidth]{telas/imgs/solicitar-agendamento-revisao.png}}
+    \caption*{Fonte: Elaborado pelo autor (2026).}
+    \label{fig:tela-revisao}
+\end{figure}
+
+Se o horário pedido avançar sobre uma aula, a solicitação não é enviada, e o sistema mostra qual aula ocupa o espaço (Figura~\ref{fig:tela-conflito}).
+
+\begin{figure}[H]
+    \centering
+    \caption{Solicitação recusada por conflito de horário}
+    \fbox{\includegraphics[width=0.78\textwidth]{telas/imgs/solicitar-agendamento-conflito.png}}
+    \caption*{Fonte: Elaborado pelo autor (2026).}
+    \label{fig:tela-conflito}
+\end{figure}
+
+Na análise (Figura~\ref{fig:tela-analise}), o responsável vê os dados da solicitação e decide se aprova, rejeita ou sugere outro espaço, data ou horário.
+
+\begin{figure}[H]
+    \centering
+    \caption{Análise de uma solicitação}
+    \fbox{\includegraphics[width=0.78\textwidth]{telas/imgs/analisar-solicitacao.png}}
+    \caption*{Fonte: Elaborado pelo autor (2026).}
+    \label{fig:tela-analise}
+\end{figure}
+
+Quando recebe uma sugestão, o solicitante vê a proposta e a mensagem de quem analisou, e escolhe se aceita ou recusa (Figura~\ref{fig:tela-alternativa}).
+
+\begin{figure}[H]
+    \centering
+    \caption{Alternativa sugerida ao solicitante}
+    \fbox{\includegraphics[width=0.78\textwidth]{telas/imgs/minha-solicitacao-alternativa.png}}
+    \caption*{Fonte: Elaborado pelo autor (2026).}
+    \label{fig:tela-alternativa}
+\end{figure}
+
+A Figura~\ref{fig:tela-importacao} mostra o resultado da importação descrita na Seção~\ref{sec:resultado-importacao}, com o resumo, os espaços cadastrados e o que foi feito com cada linha do arquivo.
+
+\begin{figure}[H]
+    \centering
+    \caption{Resultado da importação da planilha}
+    \fbox{\includegraphics[width=0.78\textwidth]{telas/imgs/importacao-ensalamento-detalhe.png}}
+    \caption*{Fonte: Elaborado pelo autor (2026).}
+    \label{fig:tela-importacao}
+\end{figure}
+
+Por fim, o mapa de calor (Figura~\ref{fig:tela-mapa}) mostra a ocupação média dos espaços por dia e faixa de horário ao longo do semestre, calculada a partir das aulas importadas.
+
+\begin{figure}[H]
+    \centering
+    \caption{Mapa de calor da ocupação dos espaços}
+    \fbox{\includegraphics[width=0.78\textwidth]{telas/imgs/mapa-de-calor.png}}
+    \caption*{Fonte: Elaborado pelo autor (2026).}
+    \label{fig:tela-mapa}
+\end{figure}
+
+%-----------------------------------
+\section{Validação}
+\label{sec:resultado-validacao}
+
+Na validação institucional, o sistema foi apresentado funcionando localmente a Frederico Ventura Batista, representando a Direção de Ensino, na reunião de 7 de outubro de 2026. Foram demonstrados todos os fluxos descritos na Seção~\ref{sec:resultado-funcionalidades}, da importação da planilha de horários à consulta pública, passando pela solicitação e pela análise de reservas, pelas notificações, pelos perfis e permissões, pelo painel, pelos relatórios e pela auditoria. Ao final, a Direção confirmou que os fluxos correspondem ao processo do campus e pediu dois ajustes\footnote{Informação verbal fornecida por Frederico Ventura Batista, Coordenador de Ensino Superior, representando a Direção de Ensino do IFNMG -- Campus Salinas, em reunião remota realizada em 7 de outubro de 2026.}. O primeiro foi exibir em tela pública também os horários fixos das aulas, o que deu origem à tela do horário original, com a semana típica importada da planilha (RF11). O segundo foi gravar um tutorial em vídeo de como solicitar um agendamento. Com os dois ajustes feitos, o critério da Seção~\ref{sec:validacao} foi cumprido.
+
+Na validação técnica, a versão desenvolvida tinha 681 testes automatizados, e todos passaram. A medição de cobertura, feita em 17 de novembro de 2026, mostrou que os testes executam 97,1\% dos comandos e 90,8\% dos desvios do código da aplicação, o que corresponde a 96,0\% de cobertura combinada. A Tabela~\ref{tab:cobertura} apresenta esses números por módulo.
+
+\begin{table}[!htb]
+	\centering
+	\caption{Cobertura de código dos testes por módulo}
+	\begin{tabular}{@{}>{\raggedright\arraybackslash}p{5.6cm}rrrr@{}}
+	\hline
+		\textbf{Módulo} & \textbf{Comandos} & \textbf{\begin{tabular}[c]{@{}r@{}}Cobertura\\ de comandos\end{tabular}} & \textbf{Desvios} & \textbf{\begin{tabular}[c]{@{}r@{}}Cobertura\\ de desvios\end{tabular}} \\ \hline
+		Ensalamento, espaços e consulta pública & 4.146 & 96,3\% & 1.074 & 89,1\% \\
+		Usuários, perfis e autenticação & 1.684 & 96,6\% & 352 & 90,3\% \\
+		Importação & 1.032 & 98,4\% & 210 & 92,9\% \\
+		Agenda de reservas & 990 & 98,5\% & 132 & 93,2\% \\
+		Relatórios & 536 & 99,4\% & 98 & 94,9\% \\
+		Interface & 519 & 98,7\% & 210 & 98,1\% \\
+		Notificações e comunicados & 431 & 97,4\% & 54 & 85,2\% \\
+		Painel administrativo & 346 & 98,0\% & 98 & 90,8\% \\
+		Auditoria & 318 & 96,5\% & 36 & 86,1\% \\
+		Configurações do sistema & 228 & 98,2\% & 34 & 97,1\% \\
+		Fila de e-mails & 164 & 92,7\% & 34 & 73,5\% \\
+		Central de ajuda & 106 & 100,0\% & 14 & 100,0\% \\
+		Configuração do projeto & 80 & 93,8\% & 6 & 83,3\% \\ \hline
+		\textbf{Total} & \textbf{10.580} & \textbf{97,1\%} & \textbf{2.352} & \textbf{90,8\%} \\ \hline
+	\end{tabular}
+	\caption*{\footnotesize Fonte: Elaborado pelo autor (2026).}
+	\label{tab:cobertura}
+\end{table}
+
+Os menores índices estão na fila de e-mails e na configuração do projeto. Nos dois casos, as partes não executadas são, em sua maioria, o laço contínuo do processo que envia os e-mails em segundo plano e os pontos de entrada usados só para iniciar o servidor, cujas regras são testadas separadamente. A cobertura não garante a ausência de defeitos, mas indica que quase todo o código da aplicação é executado pelos testes, e não apenas as partes principais.
+
+Os testes cobrem os módulos e as regras de negócio do sistema. Entre as situações verificadas estão o bloqueio de reservas sobrepostas, inclusive quando duas solicitações são analisadas ao mesmo tempo; as permissões de cada perfil; a importação e a reimportação da planilha; as alterações em aulas recorrentes; o envio de notificações; a consulta pública sem expor dados pessoais; e a impossibilidade de alterar os registros de auditoria. A Tabela~\ref{tab:testes} relaciona essas verificações aos requisitos, e o Apêndice~\ref{ap:rastreabilidade} faz essa relação para todos os requisitos. Dos 42 requisitos, 36 são verificados por testes. O RNF03 e o RNF05 foram atendidos em parte, sem medição de desempenho nem avaliação com usuários, e o RNF04, o RNF06, o RNF07 e o RNF12 foram verificados pela execução e pela revisão do código. As três partes do critério da Seção~\ref{sec:validacao} foram executadas: os testes passaram, a cobertura foi medida e cada requisito foi relacionado aos testes.
+
+\begin{table}[!htb]
+	\centering
+	\caption{Regras de negócio verificadas pelos testes}
+	\begin{tabular}{@{}>{\raggedright\arraybackslash}p{9.8cm}>{\raggedright\arraybackslash}p{4.0cm}@{}}
+	\hline
+		\textbf{Regra verificada} & \textbf{Requisitos} \\ \hline
+		Bloqueio de reservas sobrepostas, inclusive em análises simultâneas & RF06, RF07, RNF08 \\
+		Acesso a cada funcionalidade conforme as permissões do perfil & RF18, RNF01 \\
+		Importação e reimportação da planilha de horários & RF01, RF02 \\
+		Alteração, encerramento e cancelamento de aulas recorrentes & RF14--RF16 \\
+		Envio das notificações ao solicitante e aos responsáveis & RF09, RF10 \\
+		Consulta pública sem exposição de dados pessoais & RF11 \\
+		Imutabilidade dos registros de auditoria & RF26, RNF09 \\ \hline
+	\end{tabular}
+	\caption*{\footnotesize Fonte: Elaborado pelo autor (2026).}
+	\label{tab:testes}
+\end{table}
+
+Os testes automatizados mostram que o sistema funciona do ponto de vista técnico, e a reunião com a Direção de Ensino mostrou que ele atende ao processo do campus. Não houve testes formais de usabilidade com os usuários finais, e o sistema não foi implantado na infraestrutura do campus. Esses limites devem ser levados em conta na leitura dos resultados e nas próximas versões do sistema.
+
+%-----------------------------------
+\section{Atendimento às Necessidades Identificadas}
+\label{sec:resultado-necessidades}
+
+O IFAgenda trata as principais limitações encontradas no diagnóstico. Com a importação, as 1.498 aulas recorrentes da planilha sugerida, em 85 espaços, passam a ser cadastradas a partir da planilha de horários, no formato sugerido, sem precisar digitá-las uma a uma, e a ocupação das aulas aparece no calendário do sistema (Seção~\ref{sec:resultado-importacao}). A consulta pública permite visualizar a ocupação sem intermediação, enquanto o fluxo de aprovação mantém o controle administrativo sobre as reservas extraordinárias.
+
+Diante dos trabalhos relacionados (Seção~\ref{sec:trabrel}), o IFAgenda oferece recursos para a lacuna apontada por \citeonline{cruz2023gestao}, a falta de meios para medir o uso dos laboratórios, ao registrar a ocupação e gerar relatórios de uso. Como o sistema de \citeonline{nascimento2020reservas}, automatiza a solicitação e a análise de reservas e acrescenta a importação da grade e a consulta pública sem login, mas, ao contrário dele, não teve avaliação de satisfação dos usuários. Em relação ao Skedda, ao Microsoft Bookings e ao Merly, a diferença principal é a importação da grade, que nenhum oferece (Tabela~\ref{tab:comparativo}).
+
+O controle de acesso baseado em papéis restringe as funcionalidades conforme as permissões de cada perfil. A restrição de integridade no banco de dados impede reservas sobrepostas do mesmo espaço, inclusive quando solicitações são analisadas simultaneamente.
+
+O IFAgenda também registra as ações realizadas em auditoria, mantém o histórico das solicitações e fornece informações para o acompanhamento da utilização dos espaços. Dessa forma, além de organizar o processo de reserva, a aplicação oferece dados que podem apoiar o planejamento da ocupação dos laboratórios e das salas especiais. Esses efeitos, porém, ainda não foram medidos, porque o sistema não foi usado em produção.
